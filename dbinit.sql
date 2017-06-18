@@ -1,11 +1,12 @@
-CREATE SCHEMA adresboek;
+CREATE DATABASE adresboek;
+USE adresboek;
 
 CREATE USER IF NOT EXISTS adresboek IDENTIFIED BY 'adresboek';
 GRANT ALL ON adresboek.* TO 'adresboek'@'%';
 
-CREATE TABLE adresboek.persoon
+CREATE TABLE persoon
 (
-  id       NUMERIC(11) PRIMARY KEY,
+  id       INT PRIMARY KEY AUTO_INCREMENT,
   voornaam VARCHAR(100) NOT NULL
 );
 
