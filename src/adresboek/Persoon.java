@@ -40,4 +40,12 @@ public class Persoon {
     public void setVoornaam(String voornaam) {
         this.voornaam = voornaam;
     }
+
+    @Override
+    public String toString() {
+        return "Persoon{" +
+                "id=" + id +
+                ", voornaam='" + voornaam + '\'' +
+                '}';
+    }
 }

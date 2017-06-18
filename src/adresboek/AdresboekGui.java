@@ -18,6 +18,7 @@ package adresboek;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AdresboekGui {
 
@@ -26,10 +27,34 @@ public class AdresboekGui {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/adresboek", "adresboek","adresboek");
             PersoonDao persoonDao = new PersoonDao(connection);
 
+            if (args.length > 0 && args[0].equals("--init")) {
+                initDemoData(persoonDao);
+            }
+
             // TODO: start Swing GUI hier
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    private static void initDemoData(PersoonDao persoonDao) {
+        List<Persoon> teVerwijderenPersonen = persoonDao.list();
+        for (Persoon persoon : teVerwijderenPersonen) {
+            persoonDao.delete(persoon);
+            System.out.println("Verwijderd: " + persoon);
+        }
+
+        persoonDao.save(new Persoon(null, "Hans"));
+        persoonDao.save(new Persoon(null, "Grietje"));
+        persoonDao.save(new Persoon(null, "Gemene Heks"));
+        persoonDao.save(new Persoon(null, "Boze Stiefmoeder"));
+
+        List<Persoon> personen = persoonDao.list();
+        for (Persoon persoon : personen) {
+            System.out.println("Toegevoegd: " + persoon);
+        }
+
+    }
+
 }
