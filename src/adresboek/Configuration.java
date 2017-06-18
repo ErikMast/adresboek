@@ -20,22 +20,32 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AdresboekGui {
+public class Configuration {
 
-    public static void main(String[] args) {
+    private final PersoonDao persoonDao;
+    private final PersoonModel persoonModel;
+
+    public Configuration(String[] args) {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/adresboek", "adresboek","adresboek");
-            PersoonDao persoonDao = new PersoonDao(connection);
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/adresboek", "adresboek", "adresboek");
+            persoonDao = new PersoonDao(connection);
+            persoonModel = new PersoonModel(persoonDao);
 
             if (args.length > 0 && args[0].equals("--init")) {
                 initDemoData(persoonDao);
             }
 
-            // TODO: start Swing GUI hier
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage(), e);
         }
+    }
+
+    public PersoonDao getPersoonDao() {
+        return persoonDao;
+    }
+
+    public PersoonModel getPersoonModel() {
+        return persoonModel;
     }
 
     private static void initDemoData(PersoonDao persoonDao) {

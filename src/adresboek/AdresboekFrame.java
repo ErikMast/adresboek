@@ -5,17 +5,57 @@
  */
 package adresboek;
 
+import java.awt.event.WindowEvent;
+import java.util.Date;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
 /**
- *
  * @author 6851
  */
-public class AdresboekFrame extends javax.swing.JFrame {
+public class AdresboekFrame extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form AdresboekFrame
      */
-    public AdresboekFrame() {
+    public AdresboekFrame(Configuration configuration) {
         initComponents();
+
+        final PersoonModel persoonModel = configuration.getPersoonModel();
+        persoonModel.addObserver(this);
+        addWindowStateListener(e -> {
+            if ((e.getNewState() & WindowEvent.WINDOW_CLOSED) != 0) {
+                persoonModel.deleteObserver(AdresboekFrame.this);
+            }
+        });
+
+        jbToevoegen.addActionListener(e -> {
+            String voornaam = jtfVoornaam.getText();
+            if (voornaam != null && voornaam.length() > 0) {
+                Persoon persoon = new Persoon(null, voornaam);
+                persoonModel.save(persoon);
+                jtfVoornaam.setText("");
+            }
+        });
+
+        SwingUtilities.invokeLater(() -> persoonModel.refresh());
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("update " + new Date());
+        PersoonModel persoonModel = (PersoonModel) o;
+        List<Persoon> personen = persoonModel.list();
+        DefaultTableModel tableModel = (DefaultTableModel) jtOverzicht.getModel();
+        String[][] dataVector = new String[personen.size()][2];
+        for (int i = 0; i < personen.size(); i++) {
+            Persoon persoon = personen.get(i);
+            dataVector[i] = new String[]{"" + persoon.getId(), persoon.getVoornaam()};
+        }
+        tableModel.setDataVector(dataVector, new String[]{"#", "Voornaam"});
     }
 
     /**
@@ -39,43 +79,43 @@ public class AdresboekFrame extends javax.swing.JFrame {
         jtfVoornaam.setText("Voornaam");
 
         jtOverzicht.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane1.setViewportView(jtOverzicht);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbToevoegen)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jbToevoegen)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jtfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbToevoegen)
-                    .addComponent(jtfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jbToevoegen)
+                                        .addComponent(jtfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         pack();
@@ -111,7 +151,7 @@ public class AdresboekFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdresboekFrame().setVisible(true);
+                new AdresboekFrame(new Configuration(args)).setVisible(true);
             }
         });
     }
