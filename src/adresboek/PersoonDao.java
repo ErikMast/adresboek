@@ -32,7 +32,7 @@ public class PersoonDao implements Dao<Persoon> {
 
     @Override
     public List<Persoon> list() {
-        try (PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM PERSOON")) {
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM persoon")) {
             List<Persoon> personen = new ArrayList<>();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -51,7 +51,7 @@ public class PersoonDao implements Dao<Persoon> {
     @Override
     public Persoon find(Long id) {
         try (PreparedStatement preparedStatement = this.connection.prepareStatement(
-                "SELECT * FROM PERSOON WHERE ID = ?")) {
+                "SELECT * FROM persoon WHERE ID = ?")) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -73,6 +73,7 @@ public class PersoonDao implements Dao<Persoon> {
                     "INSERT INTO persoon (VOORNAAM) VALUES (?)")) {
                 preparedStatement.setString(1, persoon.getVoornaam());
                 preparedStatement.execute();
+                connection.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -82,6 +83,7 @@ public class PersoonDao implements Dao<Persoon> {
                 preparedStatement.setString(1, persoon.getVoornaam());
                 preparedStatement.setLong(2, persoon.getId());
                 preparedStatement.execute();
+                connection.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -91,7 +93,7 @@ public class PersoonDao implements Dao<Persoon> {
     @Override
     public void delete(Persoon persoon) {
         try (PreparedStatement preparedStatement = this.connection.prepareStatement(
-                "DELETE FROM PERSOON WHERE ID = ?")) {
+                "DELETE FROM persoon WHERE ID = ?")) {
             preparedStatement.setLong(1, persoon.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
