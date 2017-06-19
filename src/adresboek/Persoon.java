@@ -42,6 +42,24 @@ public class Persoon {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Persoon)) return false;
+
+        Persoon persoon = (Persoon) o;
+
+        if (id != null ? !id.equals(persoon.id) : persoon.id != null) return false;
+        return voornaam != null ? voornaam.equals(persoon.voornaam) : persoon.voornaam == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (voornaam != null ? voornaam.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Persoon{" +
                 "id=" + id +

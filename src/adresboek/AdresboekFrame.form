@@ -27,11 +27,16 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" pref="605" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="jbToevoegen" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jtfVoornaam" max="32767" attributes="0"/>
+                          <Component id="jlGeselecteerdPersoon" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jtfVoornaam" min="-2" pref="301" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jbVerwijderen" max="32767" attributes="0"/>
+                          <Component id="jbToevoegen" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -46,8 +51,13 @@
                   <Component id="jbToevoegen" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfVoornaam" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="80" max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="358" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jbVerwijderen" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlGeselecteerdPersoon" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="399" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -85,5 +95,12 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jbVerwijderen">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Verwijderen"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlGeselecteerdPersoon">
+    </Component>
   </SubComponents>
 </Form>

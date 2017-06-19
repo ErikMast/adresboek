@@ -22,31 +22,45 @@ public class PersoonModel extends Observable {
 
     private final PersoonDao persoonDao;
 
+    private List<Persoon> personen;
+    private Persoon geselecteerdPersoon;
+
     public PersoonModel(PersoonDao persoonDao) {
         this.persoonDao = persoonDao;
     }
 
+    public Persoon getGeselecteerdPersoon() {
+        return geselecteerdPersoon;
+    }
+
     public List<Persoon> list() {
-        return this.persoonDao.list();
+        if (hasChanged() || personen == null) {
+            personen = persoonDao.list();
+        }
+        return personen;
     }
 
     public Persoon find(Long id) {
-        return this.persoonDao.find(id);
+        return persoonDao.find(id);
     }
 
     public void save(Persoon persoon) {
         async(() -> {
-            this.persoonDao.save(persoon);
-            this.setChanged();
-            this.notifyObservers();
+            persoonDao.save(persoon);
+            setChangedAndNotify();
         });
+    }
+
+    private void setChangedAndNotify() {
+        setChanged();
+        personen = null;
+        notifyObservers();
     }
 
     public void delete(Persoon persoon) {
         async(() -> {
-            this.persoonDao.delete(persoon);
-            this.setChanged();
-            this.notifyObservers();
+            persoonDao.delete(persoon);
+            setChangedAndNotify();
         });
     }
 
@@ -56,9 +70,17 @@ public class PersoonModel extends Observable {
 
     public void refresh() {
         async(() -> {
-            this.setChanged();
-            this.notifyObservers();
+            setChangedAndNotify();
         });
     }
 
+    public void selectPersoonByIndex(int index) {
+        async(() -> {
+            list();
+            if (index >= 0 && index < personen.size()) {
+                geselecteerdPersoon = personen.get(index);
+                setChangedAndNotify();
+            }
+        });
+    }
 }
