@@ -6,6 +6,7 @@
 package adresboek;
 
 import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
@@ -59,27 +60,35 @@ public class AdresboekFrame extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("update " + new Date());
-        PersoonModel persoonModel = (PersoonModel) o;
-        List<Persoon> personen = persoonModel.list();
-        DefaultTableModel tableModel = (DefaultTableModel) jtOverzicht.getModel();
-        String[][] dataVector = new String[personen.size()][2];
-        String geselecteerdPersoonText = null;
-        for (int i = 0; i < personen.size(); i++) {
-            Persoon persoon = personen.get(i);
-            dataVector[i] = new String[]{"" + persoon.getId(), persoon.getVoornaam()};
-            Persoon geselecteerdPersoon = persoonModel.getGeselecteerdPersoon();
-            if (persoon.equals(geselecteerdPersoon)) {
-                geselecteerdPersoonText = "#" + persoon.getId() + " " + persoon.getVoornaam();
-            }
-        }
-        tableModel.setDataVector(dataVector, new String[]{"#", "Voornaam"});
-        if (geselecteerdPersoonText == null) {
-            jlGeselecteerdPersoon.setText("");
-            jbVerwijderen.setEnabled(false);
-        } else {
-            jlGeselecteerdPersoon.setText(geselecteerdPersoonText);
-            jbVerwijderen.setEnabled(true);
+        try {
+            // dit stuk code werkt de tabel bij, om te zorgen dat niet halverwege de tabel zelf al
+            // gaat updaten wordt invokeAndWait() gebruikt:
+            SwingUtilities.invokeAndWait(() -> {
+                System.out.println("AdresboekFrame.update(...) " + new Date());
+                PersoonModel persoonModel = (PersoonModel) o;
+                List<Persoon> personen = persoonModel.list();
+                DefaultTableModel tableModel = (DefaultTableModel) jtOverzicht.getModel();
+                String[][] dataVector = new String[personen.size()][2];
+                String geselecteerdPersoonText = null;
+                for (int i = 0; i < personen.size(); i++) {
+                    Persoon persoon = personen.get(i);
+                    dataVector[i] = new String[]{"" + persoon.getId(), persoon.getVoornaam()};
+                    Persoon geselecteerdPersoon = persoonModel.getGeselecteerdPersoon();
+                    if (persoon.equals(geselecteerdPersoon)) {
+                        geselecteerdPersoonText = "#" + persoon.getId() + " " + persoon.getVoornaam();
+                    }
+                }
+                tableModel.setDataVector(dataVector, new String[]{"#", "Voornaam"});
+                if (geselecteerdPersoonText == null) {
+                    jlGeselecteerdPersoon.setText("");
+                    jbVerwijderen.setEnabled(false);
+                } else {
+                    jlGeselecteerdPersoon.setText(geselecteerdPersoonText);
+                    jbVerwijderen.setEnabled(true);
+                }
+            });
+        } catch (InterruptedException | InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
@@ -98,12 +107,11 @@ public class AdresboekFrame extends javax.swing.JFrame implements Observer {
         jtOverzicht = new javax.swing.JTable();
         jbVerwijderen = new javax.swing.JButton();
         jlGeselecteerdPersoon = new javax.swing.JLabel();
+        jlVoornaam = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jbToevoegen.setLabel("Toevoegen");
-
-        jtfVoornaam.setText("Voornaam");
 
         jtOverzicht.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -120,6 +128,8 @@ public class AdresboekFrame extends javax.swing.JFrame implements Observer {
 
         jbVerwijderen.setText("Verwijderen");
 
+        jlVoornaam.setText("Voornaam:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,8 +140,11 @@ public class AdresboekFrame extends javax.swing.JFrame implements Observer {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfVoornaam)
-                            .addComponent(jlGeselecteerdPersoon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jlGeselecteerdPersoon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlVoornaam)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfVoornaam)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbVerwijderen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -141,16 +154,17 @@ public class AdresboekFrame extends javax.swing.JFrame implements Observer {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbToevoegen)
-                    .addComponent(jtfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlVoornaam))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbVerwijderen)
                     .addComponent(jlGeselecteerdPersoon))
                 .addGap(4, 4, 4)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -193,6 +207,7 @@ public class AdresboekFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton jbToevoegen;
     private javax.swing.JButton jbVerwijderen;
     private javax.swing.JLabel jlGeselecteerdPersoon;
+    private javax.swing.JLabel jlVoornaam;
     private javax.swing.JTable jtOverzicht;
     private javax.swing.JTextField jtfVoornaam;
     // End of variables declaration//GEN-END:variables

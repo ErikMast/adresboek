@@ -41,6 +41,7 @@ public class PersoonDao implements Dao<Persoon> {
                     personen.add(new Persoon(id, voornaam));
                 }
             }
+            System.out.println("PersoonDao.list(): " + personen.size() + " gelezen uit de database");
             return personen;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,9 +57,11 @@ public class PersoonDao implements Dao<Persoon> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     String voornaam = resultSet.getString("VOORNAAM");
+                    System.out.println("PersoonDao.find(" + id + ") gelezen uit de database");
                     return new Persoon(id, voornaam);
                 }
             }
+            System.out.println("PersoonDao.find(" + id + ") NIET GEVONDEN in de database");
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,7 +76,7 @@ public class PersoonDao implements Dao<Persoon> {
                     "INSERT INTO persoon (VOORNAAM) VALUES (?)")) {
                 preparedStatement.setString(1, persoon.getVoornaam());
                 preparedStatement.execute();
-                connection.commit();
+                System.out.println("PersoonDao.save(null) NIEUW toegevoegd aan de database");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -83,7 +86,7 @@ public class PersoonDao implements Dao<Persoon> {
                 preparedStatement.setString(1, persoon.getVoornaam());
                 preparedStatement.setLong(2, persoon.getId());
                 preparedStatement.execute();
-                connection.commit();
+                System.out.println("PersoonDao.save(" + persoon.getId() + ") bijgewerkt in de database");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -96,6 +99,7 @@ public class PersoonDao implements Dao<Persoon> {
                 "DELETE FROM persoon WHERE ID = ?")) {
             preparedStatement.setLong(1, persoon.getId());
             preparedStatement.execute();
+            System.out.println("PersoonDao.delete(" + persoon.getId() + ") verwijderd uit de database");
         } catch (SQLException e) {
             e.printStackTrace();
         }

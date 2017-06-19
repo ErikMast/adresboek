@@ -69,9 +69,7 @@ public class PersoonModel extends Observable {
     }
 
     public void refresh() {
-        async(() -> {
-            setChangedAndNotify();
-        });
+        async(this::setChangedAndNotify);
     }
 
     public void selectPersoonByIndex(int index) {
@@ -79,7 +77,8 @@ public class PersoonModel extends Observable {
             list();
             if (index >= 0 && index < personen.size()) {
                 geselecteerdPersoon = personen.get(index);
-                setChangedAndNotify();
+                setChanged();
+                notifyObservers();
             }
         });
     }

@@ -52,7 +52,6 @@ public class Configuration {
         List<Persoon> teVerwijderenPersonen = persoonDao.list();
         for (Persoon persoon : teVerwijderenPersonen) {
             persoonDao.delete(persoon);
-            System.out.println("Verwijderd: " + persoon);
         }
 
         persoonDao.save(new Persoon(null, "Hans"));
