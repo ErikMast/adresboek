@@ -133,3 +133,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+### NetBeans template
+nbproject
+build
+dist
+build.xml
+manifest.mf
