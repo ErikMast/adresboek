@@ -25,8 +25,8 @@ Aanmaken van database en user gaat met het script in
 
     sql/dbinit.sql
    
-## Dit project gebruiken in Eclipse
-# Versie Neon.3
+# Dit project gebruiken in Eclipse
+## Versie Neon.3
 1. File>Import
 2. Selecteer "Projects form Git"
 3. Kies "Clone URI"
@@ -47,7 +47,7 @@ Mocht je project niet werken vanwege "No suitable driver found" :
 2. Kies Java Build Path, en het tabblad Libraries
 3. Kies "Add External Jar" en kies de jar die kunt downloaden via de link hierboven en daarna op een slimme plek hebt neergezet.
 
-Vervolgens kun je p[rpject starten.
+Vervolgens kun je project starten.
 
 
 
