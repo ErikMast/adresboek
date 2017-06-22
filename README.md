@@ -52,4 +52,6 @@ Vervolgens kun je project starten.
 # Taiga integratie
 Als je in een commit TG-123 toevoegt zal de commit ook in Taiga zichtbaar zijn (zegt de handleiding)
 
+https://tree.taiga.io/support/integrations/changing-elements-status-via-commit-message/
+
     
