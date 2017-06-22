@@ -49,7 +49,7 @@ Mocht je project niet werken vanwege "No suitable driver found" :
 
 Vervolgens kun je project starten.
 
-#Taiga integratie
+# Taiga integratie
 Als je in een commit TG-123 toevoegt zal de commit ook in Taiga zichtbaar zijn (zegt de handleiding)
 
     
