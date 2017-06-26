@@ -26,10 +26,32 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="605" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jlGeselecteerdPersoon" max="32767" attributes="0"/>
+                      <Component id="jlGeselecteerdPersoon" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jbVerwijderen" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jlPostcode" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                              <Component id="jtfPostcode" min="-2" pref="97" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                              <Component id="jlWoonplaats" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jtfWoonplaats" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jlStraat" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="23" max="32767" attributes="0"/>
+                              <Component id="jtfStraat" min="-2" pref="346" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jlHuisnummer" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jtfHuisnummer" min="-2" pref="97" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="102" attributes="0">
                               <Component id="jlVoornaam" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -37,10 +59,7 @@
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jbVerwijderen" max="32767" attributes="0"/>
-                          <Component id="jbToevoegen" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jbToevoegen" min="-2" pref="89" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -58,12 +77,31 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jbVerwijderen" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jlGeselecteerdPersoon" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtfStraat" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlStraat" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtfHuisnummer" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlHuisnummer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="392" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jtfWoonplaats" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlWoonplaats" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtfPostcode" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlPostcode" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="287" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jbVerwijderen" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="45" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="jlGeselecteerdPersoon" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -107,6 +145,34 @@
     <Component class="javax.swing.JLabel" name="jlVoornaam">
       <Properties>
         <Property name="text" type="java.lang.String" value="Voornaam:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlStraat">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Straat:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtfStraat">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlHuisnummer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nr:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtfHuisnummer">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlWoonplaats">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Woonplaats:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtfWoonplaats">
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtfPostcode">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlPostcode">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Postcode:"/>
       </Properties>
     </Component>
   </SubComponents>
